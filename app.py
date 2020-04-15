@@ -1,8 +1,9 @@
 import constants
 import random 
+import copy
 
 def clean_data():
-    new_players_list = constants.PLAYERS
+    new_players_list = copy.deepcopy(constants.PLAYERS)
     for player in new_players_list:
         for key, value in player.items():
             if key == "experience":
@@ -10,7 +11,12 @@ def clean_data():
                     player[key] = False
                 else:
                     player[key] = True
+            if key == "height":
+                height_list = value.split(" ")
+                height = int(height_list[0])
+                player[key] = height
     return (new_players_list)
+
 
 def create_player_list(players):
     experienced_players = []
@@ -25,39 +31,39 @@ def create_player_list(players):
     return experienced_players, inexperienced_players
 
 def populate_teams(experienced_players, inexperienced_players):
-    PANTHERS = []
-    BANDITS = []
-    WARRIORS = []
+    panthers = []
+    bandits = []
+    warriors = []
     players_left = True
 
     while players_left:
         # ADDING TO PANTHERS
         experienced_index = random.randint(0, len(experienced_players) - 1)
         inexperienced_index = random.randint(0, len(inexperienced_players) - 1)
-        PANTHERS.append(experienced_players[experienced_index])
+        panthers.append(experienced_players[experienced_index])
         del experienced_players[experienced_index]
-        PANTHERS.append(inexperienced_players[inexperienced_index])
+        panthers.append(inexperienced_players[inexperienced_index])
         del inexperienced_players[inexperienced_index]
         # ADDING TO BANDITS
         experienced_index = random.randint(0, len(experienced_players) - 1)
         inexperienced_index = random.randint(0, len(inexperienced_players) - 1)
-        BANDITS.append(experienced_players[experienced_index])
+        bandits.append(experienced_players[experienced_index])
         del experienced_players[experienced_index]
-        BANDITS.append(inexperienced_players[inexperienced_index])
+        bandits.append(inexperienced_players[inexperienced_index])
         del inexperienced_players[inexperienced_index]
         # ADDING TO WARRIORS
         experienced_index = random.randint(0, len(experienced_players) - 1)
         inexperienced_index = random.randint(0, len(inexperienced_players) - 1)
-        WARRIORS.append(experienced_players[experienced_index])
+        warriors.append(experienced_players[experienced_index])
         del experienced_players[experienced_index]
-        WARRIORS.append(inexperienced_players[inexperienced_index])
+        warriors.append(inexperienced_players[inexperienced_index])
         del inexperienced_players[inexperienced_index]
         if len(experienced_players) > 0:
             continue
         else:
             players_left = False
 
-    return PANTHERS, BANDITS, WARRIORS
+    return panthers, bandits, warriors
 
 def display_teams():
     print("\n")
